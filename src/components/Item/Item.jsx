@@ -1,6 +1,7 @@
 import testdata from '../App/testdata'
 import styles from './Item.module.scss'
 import { MdNavigateNext } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 function Item({data, ...props}) {
 
@@ -15,7 +16,7 @@ function Item({data, ...props}) {
       <div className={styles.item_average}>Vauhti: {data.pace} min/km</div>
     </div>
     <div className={styles.item_edit}>
-        <MdNavigateNext />
+        <Link to={"/edit/" + data.id}><MdNavigateNext /></Link>
       </div>
     </div>
   )

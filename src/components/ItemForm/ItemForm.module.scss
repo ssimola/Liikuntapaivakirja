@@ -19,13 +19,14 @@
 
 .itemform input, .itemform select {
   padding: 0.5rem;
-  border: 1px solid $color-neutral;
+  border: 2px solid $color-neutral;
   border-radius: 0.3rem;
   font-size: 1.2rem;
   outline: none;
 }
 
 .itemform label {
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin-bottom: 0.3rem;
 }
+
