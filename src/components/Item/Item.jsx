@@ -9,11 +9,12 @@ function Item({data, ...props}) {
     <div className={styles.item}>
     <div className={styles.item_data}>
       <div className={styles.item_type}>Juoksulenkki</div>
-      <div className={styles.item_amount}>Juoksulenkin pituus: {data.length} km</div>
+      <div className={styles.item_length}>Juoksulenkin pituus: {data.length} km</div>
       <div className={styles.item_date}>Päivämäärä: {data.date}</div>
       <div className={styles.item_timespan}>Kesto: {data.duration} min</div>
       <div className={styles.item_receiver}>Keskisyke: {data.averageHeartRate} bpm</div>
       <div className={styles.item_average}>Vauhti: {data.pace} min/km</div>
+      <div className={styles.item_comment}>Kommentti: {data.comment}</div>
     </div>
     <div className={styles.item_edit}>
         <Link to={"/edit/" + data.id}><MdNavigateNext /></Link>

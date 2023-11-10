@@ -18,11 +18,11 @@ function ItemForm(props) {
   const initialState = {
     type: "",
     date: "",
-    lenght: "",
+    length: "",
     duration: "",
     averageHeartRate: "",
     pace: "",
-    kommentti: ""
+    comment: ""
   }
 
   const {values, handleChange, handleSubmit } = useForm(submit, initialState, false)
@@ -44,6 +44,7 @@ function ItemForm(props) {
             <div>
               <label htmlFor='type'>Liikuntamuoto</label>
               <select id='type' name='type' onChange={handleChange} value={values.type}>
+              <option value=''>Valitse vaihtoehto</option>
                 <option>Juoksu</option>
                 <option>Kuntosali</option>
                 <option>BJJ</option>
@@ -57,8 +58,8 @@ function ItemForm(props) {
               <input id='date' type='date' name='date' onChange={handleChange} value={values.date} />
             </div>
             <div>
-            <label htmlFor='lenght'>Matka/km</label>
-              <input id='lenght' type='number' name='lenght' step='0.10' onChange={handleChange} value={values.lenght} />
+            <label htmlFor='length'>Matka/km</label>
+              <input id='length' type='number' name='length' step='0.10' onChange={handleChange} value={values.length} />
             </div>
           </div>
           <div className={styles.itemform_row}>
@@ -77,20 +78,21 @@ function ItemForm(props) {
               <input id='pace' type='number' name='pace' step='0.1' onChange={handleChange} value={values.pace} />
             </div>
             <div>
-              <label htmlFor='kommentti'>Kommentti</label>
-              <input id='kommentti' type='text' name='kommentti' onChange={handleChange} value={values.kommentti} />
+              <label htmlFor='comment'>Kommentti</label>
+              <input id='comment' type='text' name='comment' onChange={handleChange} value={values.comment} />
             </div>
           </div>
           <div className={styles.itemform_row}>
             <div>
-            <Button primary
-                      disabled={values.type &&
-                                values.date &&
-                                values.duration &&
-                                values.kommentti ? "" : "true"}
-                      type='submit'>
-                { props.formData ? "TALLENNA" : "LISÄÄ" }
-              </Button>
+            <Button
+              primary
+              disabled={
+                !(values.type && values.date && values.duration && values.comment)
+              }
+              type="submit"
+              >
+              {props.formData ? "TALLENNA" : "LISÄÄ"}
+            </Button>
             </div>
             <div>
               <Button onClick={handleCancel}>PERUUTA</Button>
