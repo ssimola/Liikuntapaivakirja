@@ -8,6 +8,16 @@ function ItemForm(props) {
   const navigate = useNavigate()
 
   const submit = () => {
+    if (values.type === "Juoksu") {
+      // Tähän tarttis keksiä jotain
+    } else if (values.type === "Kuntosali") {
+      // Tähän tarttis keksiä jotain
+    } else if (values.type === "BJJ") {
+      // Tähän tarttis keksiä jotain
+    } else if (values.type === "Kahvakuula") {
+      // Tähän tarttis keksiä jotain
+    }
+  
     let storedValues = Object.assign({}, values)
     storedValues.amount = parseFloat(storedValues.amount)
     storedValues.id = crypto.randomUUID()

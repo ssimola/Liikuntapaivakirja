@@ -12,14 +12,50 @@
     display: flex;
   }
   
-.item_length, .item_timespan, .item_average {
+.item_juoksu_length, .item_juoksu_timespan, .item_juoksu_average {
     text-align: right;
   } 
   
-  .item_type, .item_length {
+  .item_juoksu_type, .item_juoksu_length {
     color: $color-neutral-darkest;
+    font-weight: normal; 
+}
+
+.item_type {
+    font-weight: normal; 
+}
+
+.item_type_juoksu {
     font-weight: bold;
-  }
+    color: black
+}
+
+.item_type_kuntosali {
+    font-weight: bold;
+    color: black;
+}
+
+.item_kuntosali_date, .item_kuntosali_comment {
+  text-align:right;
+}
+
+.item_type_Bjj {
+    font-weight: bold;
+    color: black;
+}
+
+.item_Bjj_date, .item_Bjj_comment {
+  text-align:right;
+}
+
+.item_type_Kahvakuula {
+    font-weight: bold;
+    color: black;
+}
+
+.item_Kahvakuula_date, .item_Kahvakuula_comment {
+  text-align:right;
+}
   
   .item_edit {
     max-width: 2rem;

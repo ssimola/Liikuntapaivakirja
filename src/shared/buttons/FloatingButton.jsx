@@ -1,15 +1,14 @@
-import styles from './buttons.module.scss'
-import clsx from 'clsx'
-import Button from './Button.jsx'
+import React from 'react';
+import { BiRun } from 'react-icons/bi';
+import ButtonContainer from './ButtonContainer';
+import styles from './buttons.module.scss'; 
 
-function FloatingButton({className, ...props}) {
+function FloatingButton() {
   return (
-    <Button className={clsx(
-              styles.button_floating,
-              className
-            )}
-            {...props} />
-  )
+    <ButtonContainer className={styles.button_floating}>
+      <BiRun className={styles.icon} />
+    </ButtonContainer>
+  );
 }
 
-export { FloatingButton as default, FloatingButton }
+export default FloatingButton;
