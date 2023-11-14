@@ -25,7 +25,7 @@ function ItemForm(props) {
     navigate(-1)
   }
 
-  const initialState = {
+  const initialState = props.formData ? props.formData : {
     type: "",
     date: "",
     length: "",
