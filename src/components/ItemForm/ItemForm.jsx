@@ -9,13 +9,13 @@ function ItemForm(props) {
 
   const submit = () => {
     if (values.type === "Juoksu") {
-      // Tähän tarttis keksiä jotain
+      // TODO
     } else if (values.type === "Kuntosali") {
-      // Tähän tarttis keksiä jotain
+      // TODO
     } else if (values.type === "BJJ") {
-      // Tähän tarttis keksiä jotain
+      // TODO
     } else if (values.type === "Kahvakuula") {
-      // Tähän tarttis keksiä jotain
+      // TODO
     }
   
     let storedValues = Object.assign({}, values)

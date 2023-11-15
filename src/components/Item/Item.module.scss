@@ -15,6 +15,10 @@
 .item_juoksu_length, .item_juoksu_timespan, .item_juoksu_average {
     text-align: right;
   } 
+
+.item_juoksu_comment {
+  text-align: left;
+}
   
   .item_juoksu_type, .item_juoksu_length {
     color: $color-neutral-darkest;

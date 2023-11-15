@@ -3,6 +3,7 @@
 .content {
     overflow-y: auto;
     scrollbar-color: $color-neutral-light $color-neutral-lighter;
+    box-shadow: 10px 0 10px -5px rgba(0, 0, 0, 0.1), -10px 0 10px -5px rgba(0, 0, 0, 0.1);
   }
   
   .content::-webkit-scrollbar {

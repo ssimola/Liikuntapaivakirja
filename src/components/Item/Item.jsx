@@ -34,6 +34,7 @@ function Item({ data, ...props }) {
             <div className={styles.item_juoksu_timespan}>Kesto: {data.duration} min</div>
             <div className={styles.item_juoksu_receiver}>Keskisyke: {data.averageHeartRate} bpm</div>
             <div className={styles.item_juoksu_average}>Vauhti: {data.pace} min/km</div>
+            <div className={styles.item_juoksu_comment}>Kommentti: {data.comment}</div>
           </>
         )}
         {data.type === "Kuntosali" && (
