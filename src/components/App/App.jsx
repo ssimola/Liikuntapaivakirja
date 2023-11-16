@@ -3,53 +3,53 @@ import useLocalStorage from '../../shared/uselocalstorage/uselocalstorage'
 import AppRouter from '../AppRouter'
 import testdata from './testdata.js'
 import firebase from './firebase.js'
-import { collection, getFirestore, onSnapshot  } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, orderBy, query, setDoc  } from 'firebase/firestore'
 import { useEffect } from 'react'
 
 function App() {
 
   const [data, setData] = useState([])
 
-  const [typelist, setTypelist] = useLocalStorage('Liikuntapaivakirja-typelist',[])
+  const [typelist, setTypelist] = useState([])
 
   const firestore = getFirestore(firebase)
 
   useEffect( () => {
-    const unsubscribe = onSnapshot(collection(firestore,'item'), snapshot => {
+    const unsubscribe = onSnapshot(query(collection(firestore,'item'),
+                                         orderBy('date', 'desc')),
+                                   snapshot => {
       const newData = []
       snapshot.forEach( doc => {
         newData.push({ ...doc.data(), id: doc.id })
       })
-      setData(newData)    
+      setData(newData)
     })
     return unsubscribe
   }, [])
 
-  const handleItemDelete = (id) => {
-    let copy = data.slice()
-    copy = copy.filter(item => item.id !== id)
-    setData(copy)
-  }
-  const handleItemSubmit = (newitem) => {
-    let copy = data.slice()
-    const index = copy.findIndex(item => item.id === newitem.id)
-    if (index >= 0) {
-      copy[index] = newitem
-    } else {
-      copy.push(newitem)
-    }
-    copy.sort( (a,b) => {
-      const aDate = new Date(a.date)
-      const bDate = new Date(b.date)
-      return bDate - aDate
+  useEffect( () => {
+    const unsubscribe = onSnapshot(query(collection(firestore,'type'),
+                                         orderBy('type')),
+                                   snapshot => {
+      const newTypelist = []
+      snapshot.forEach( doc => {
+        newTypelist.push(doc.data().type)
+      })
+      setTypelist(newTypelist)
     })
-    setData(copy)
+    return unsubscribe
+  }, []) 
+
+  const handleItemDelete = async (id) => {
+    await deleteDoc(doc(firestore, 'item', id))
   }
-  const handleTypeSubmit = (type) => {
-    let copy = typelist.slice()
-    copy.push(type)
-    copy.sort()
-    setTypelist(copy)
+
+  const handleItemSubmit = async (newitem) => {
+    await setDoc(doc(firestore, 'item', newitem.id), newitem)
+  }
+
+  const handleTypeSubmit = async (type) => {
+    await addDoc(collection(firestore,'type'),{type: type})
   }
   return (
     <>
