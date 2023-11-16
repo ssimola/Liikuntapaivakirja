@@ -6,6 +6,7 @@ import Items from '../Items'
 import Root from '../Root'
 import Settings from '../Settings'
 import Stats from '../Stats'
+
 function AppRouter(props) {
   const router = createBrowserRouter([
     {
