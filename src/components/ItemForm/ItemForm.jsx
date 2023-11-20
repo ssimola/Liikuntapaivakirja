@@ -74,7 +74,7 @@ function ItemForm(props) {
           </div>
           <div className={styles.itemform_row}>
             <div>
-              <label htmlFor='duration'>Kesto</label>
+              <label htmlFor='duration'>Kesto/min</label>
               <input id='duration' type='number' name='duration' onChange={handleChange} value={values.duration} />
             </div>
             <div>
