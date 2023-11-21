@@ -2,15 +2,17 @@ import { useState } from 'react'
 import useLocalStorage from '../../shared/uselocalstorage/uselocalstorage'
 import AppRouter from '../AppRouter'
 import testdata from './testdata.js'
-import firebase from './firebase.js'
+import firebase, { auth } from './firebase.js'
 import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, orderBy, query, setDoc  } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
+import Startup from '../Startup'
 
 function App() {
 
   const [data, setData] = useState([])
-
   const [typelist, setTypelist] = useState([])
+  const [user, setUser] = useState()
 
   const firestore = getFirestore(firebase)
 
@@ -26,7 +28,6 @@ function App() {
     })
     return unsubscribe
   }, [])
-
   useEffect( () => {
     const unsubscribe = onSnapshot(query(collection(firestore,'type'),
                                          orderBy('type')),
@@ -38,26 +39,34 @@ function App() {
       setTypelist(newTypelist)
     })
     return unsubscribe
-  }, []) 
+  }, [])
+
+  useEffect( () => {
+    onAuthStateChanged(auth, user => {
+      setUser(user)
+    })
+  }, [])
 
   const handleItemDelete = async (id) => {
     await deleteDoc(doc(firestore, 'item', id))
   }
-
   const handleItemSubmit = async (newitem) => {
     await setDoc(doc(firestore, 'item', newitem.id), newitem)
   }
-
   const handleTypeSubmit = async (type) => {
     await addDoc(collection(firestore,'type'),{type: type})
   }
+
   return (
     <>
-      <AppRouter data={data}
-                 typelist={typelist}
-                 onItemSubmit={handleItemSubmit}
-                 onItemDelete={handleItemDelete}
-                 onTypeSubmit={handleTypeSubmit} />
+      { user ?
+          <AppRouter data={data}
+                     typelist={typelist}
+                     onItemSubmit={handleItemSubmit}
+                     onItemDelete={handleItemDelete}
+                     onTypeSubmit={handleTypeSubmit} />
+        : <Startup auth={auth} />
+      }
     </>
   )
 }

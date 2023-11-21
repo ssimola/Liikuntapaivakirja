@@ -1,5 +1,6 @@
 // Tuodaan Firebase-sovelluksen alustusfunktio
 import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
 
 // Määritellään sovelluksen Firebase-asetukset
 const firebaseConfig = {
@@ -10,8 +11,8 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGINGSENDERID,
   appId: import.meta.env.VITE_FIREBASE_APPID
 }
-
 // Alustetaan Firebase-sovellus
 const firebase = initializeApp(firebaseConfig)
 
+export const auth = getAuth(firebase)
 export default firebase
