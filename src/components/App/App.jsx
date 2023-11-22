@@ -2,46 +2,82 @@ import { useState } from 'react'
 import useLocalStorage from '../../shared/uselocalstorage/uselocalstorage'
 import AppRouter from '../AppRouter'
 import testdata from './testdata.js'
-
+import firebase, { auth } from './firebase.js'
+import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, orderBy, query, setDoc  } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useEffect } from 'react'
+import Startup from '../Startup'
 
 function App() {
 
-  const [data, setData] = useLocalStorage('Liikuntapaivakirja-data',[])
-  const [typelist, setTypelist] = useLocalStorage('Liikuntapaivakirja-typelist',[])
+  const [data, setData] = useState([])
+  const [typelist, setTypelist] = useState([])
+  const [user, setUser] = useState()
 
-  const handleItemDelete = (id) => {
-    let copy = data.slice()
-    copy = copy.filter(item => item.id !== id)
-    setData(copy)
-  }
-  const handleItemSubmit = (newitem) => {
-    let copy = data.slice()
-    const index = copy.findIndex(item => item.id === newitem.id)
-    if (index >= 0) {
-      copy[index] = newitem
+  const firestore = getFirestore(firebase)
+
+  useEffect( () => {
+    if (user) {
+      const unsubscribe = onSnapshot(query(collection(firestore,`user/${user.uid}/item`),
+                                           orderBy('date', 'desc')),
+                                     snapshot => {
+        const newData = []
+        snapshot.forEach( doc => {
+          newData.push({ ...doc.data(), id: doc.id })
+        })
+        setData(newData)
+      })
+      return unsubscribe
     } else {
-      copy.push(newitem)
+      setData([])
     }
-    copy.sort( (a,b) => {
-      const aDate = new Date(a.date)
-      const bDate = new Date(b.date)
-      return bDate - aDate
+  }, [user])
+
+  useEffect( () => {
+    if (user) {
+      const unsubscribe = onSnapshot(query(collection(firestore,`user/${user.uid}/type`),
+                                           orderBy('type')),
+                                     snapshot => {
+        const newTypelist = []
+        snapshot.forEach( doc => {
+          newTypelist.push(doc.data().type)
+        })
+        setTypelist(newTypelist)
+      })
+      return unsubscribe
+    } else {
+      setTypelist([])
+    }
+  }, [user])
+
+  useEffect( () => {
+    onAuthStateChanged(auth, user => {
+      setUser(user)
     })
-    setData(copy)
+  }, [])
+
+  const handleItemDelete = async (id) => {
+    await deleteDoc(doc(firestore, `user/${user.uid}/item`, id))
   }
-  const handleTypeSubmit = (type) => {
-    let copy = typelist.slice()
-    copy.push(type)
-    copy.sort()
-    setTypelist(copy)
+  const handleItemSubmit = async (newitem) => {
+    await setDoc(doc(firestore, `user/${user.uid}/item`, newitem.id), newitem)
   }
+  const handleTypeSubmit = async (type) => {
+    await addDoc(collection(firestore,`user/${user.uid}/type`),{type: type})
+  }
+
   return (
     <>
-      <AppRouter data={data}
-                 typelist={typelist}
-                 onItemSubmit={handleItemSubmit}
-                 onItemDelete={handleItemDelete}
-                 onTypeSubmit={handleTypeSubmit} />
+      { user ?
+                    <AppRouter data={data}
+                    typelist={typelist}
+                    onItemSubmit={handleItemSubmit}
+                    onItemDelete={handleItemDelete}
+                    onTypeSubmit={handleTypeSubmit}
+                    auth={auth}
+                    user={user} />
+        : <Startup auth={auth} />
+      }
     </>
   )
 }
