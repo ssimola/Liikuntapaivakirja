@@ -6,8 +6,9 @@ import Items from '../Items'
 import Root from '../Root'
 import Settings from '../Settings'
 import Stats from '../Stats'
-
+// AppRouter-komponentti määrittelee sovelluksen reitityken
 function AppRouter(props) {
+  // Luo reitityksen käyttämällä BrowserRouteria
   const router = createBrowserRouter([
     {
       path: "/",
@@ -25,6 +26,7 @@ function AppRouter(props) {
                              onItemDelete={props.onItemDelete}
                              typelist={props.typelist} />,
           loader: ({params}) => {
+            // Hakee tiedot id:n mukaan
             const item = props.data.filter(item => item.id === params.id).shift()
             if (item) {
               return { item }

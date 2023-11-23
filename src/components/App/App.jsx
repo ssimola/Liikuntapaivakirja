@@ -9,13 +9,13 @@ import { useEffect } from 'react'
 import Startup from '../Startup'
 
 function App() {
-
+  // Tilamuuttujat
   const [data, setData] = useState([])
   const [typelist, setTypelist] = useState([])
   const [user, setUser] = useState()
-
+  // Yhteys firestore tietokantaan
   const firestore = getFirestore(firebase)
-
+  // Päivittää datan ja seuraa käyttäjän kirjautumista
   useEffect( () => {
     if (user) {
       const unsubscribe = onSnapshot(query(collection(firestore,`user/${user.uid}/item`),
@@ -29,10 +29,11 @@ function App() {
       })
       return unsubscribe
     } else {
+      // Jos käyttäjä ei ole kirjautunut, tyhjennetään data
       setData([])
     }
   }, [user])
-
+  // Seuraa käyttäjän kirjautumisa ja päivittää tyypin(Liikuntamuoto)
   useEffect( () => {
     if (user) {
       const unsubscribe = onSnapshot(query(collection(firestore,`user/${user.uid}/type`),
@@ -55,7 +56,7 @@ function App() {
       setUser(user)
     })
   }, [])
-
+// Poistaa sekä lisää käyttäjän tiedot ja lisää tyypin
   const handleItemDelete = async (id) => {
     await deleteDoc(doc(firestore, `user/${user.uid}/item`, id))
   }
@@ -65,7 +66,7 @@ function App() {
   const handleTypeSubmit = async (type) => {
     await addDoc(collection(firestore,`user/${user.uid}/type`),{type: type})
   }
-
+  // Renderöi sovelluksen
   return (
     <>
       { user ?

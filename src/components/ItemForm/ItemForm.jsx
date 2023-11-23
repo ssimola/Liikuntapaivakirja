@@ -4,9 +4,9 @@ import Button from '../../shared/buttons'
 import { useNavigate } from 'react-router-dom'
 
 function ItemForm(props) {
-
+  // Käytetään useNavigate-hookkia navigoinnin hallitsemiseen
   const navigate = useNavigate()
-
+  // Lomake funktio, jossa runko ehtorakenteelle, jonka tule toteuttamaan myöhemmin
   const submit = () => {
     if (values.type === "Juoksu") {
       // TODO
@@ -17,14 +17,14 @@ function ItemForm(props) {
     } else if (values.type === "Kahvakuula") {
       // TODO
     }
-  
+    // Generoi ainutlaatuisen tunnisteen ja lähettää lomakkeen
     let storedValues = Object.assign({}, values)
     storedValues.amount = parseFloat(storedValues.amount)
     storedValues.id = crypto.randomUUID()
     props.onItemSubmit(storedValues)
     navigate(-1)
   }
-
+    // Asettaa lomakkeen arvot
   const initialState = props.formData ? props.formData : {
     type: "",
     date: "",
@@ -34,18 +34,18 @@ function ItemForm(props) {
     pace: "",
     comment: ""
   }
-
+ // Purkaa saadut arvot, käyttämällä useForm koukkua
   const {values, handleChange, handleSubmit } = useForm(submit, initialState, false)
-
+  // Peruuta funktio
   const handleCancel = () => {
     navigate(-1)
   }
-
+  // Poista funktio
   const handleDelete = () => {
     props.onItemDelete(values.id)
     navigate(-1)
   }
-
+  // Lomakkeen renderöinti
   return (
     <div>
       <form onSubmit={handleSubmit}>
