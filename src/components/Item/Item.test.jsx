@@ -28,7 +28,7 @@ describe('Item', () => {
     expect(dateElement).toBeInTheDocument();
 
     // Kommentti
-    const commentElement = screen.getByText(/Kommentti: Peruslenkki/,data.comment);
+    const commentElement = screen.getByText(/Kommentti: Peruslenkki/, data.comment);
     expect(commentElement).toBeInTheDocument();
 
   })
