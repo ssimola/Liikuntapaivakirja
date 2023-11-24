@@ -1,6 +1,6 @@
 # Liikuntapäiväkirja
 
-Harjoitustyönä toteutettu React-projekti, jolla voi kirjata ja seurata omia liikunta suorituksia.
+Näyttötyönä toteutettu React-projekti, jolla voi kirjata ja seurata omia liikuntasuorituksia.
 
 ## Kuvaruutukopiot
 
